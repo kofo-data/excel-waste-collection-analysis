@@ -2,6 +2,8 @@
 
 An end-to-end Excel project: messy collection data cleaned with Power Query, analysed with lookups and pivot tables, and presented in an interactive summary with slicers.
 
+![Summary dashboard](Summary.png)
+
 > **Note:** the data is simulated for practice. It is not real LAWMA or any other organisation's data.
 
 ## Business problem
@@ -34,13 +36,15 @@ Which zones collect the least waste per truck trip, which months are busiest, an
 | Blank Missed Pickups | 15 | Left blank, excluded from the missed pickup average |
 | Dates in 3 formats | 990 / 15 / 25 | Converted to real dates using the UK locale, so 05/03 means 5 March |
 
-Every problem, count and decision is recorded in the workbook's `Issue_logs` sheet.
+Every problem, count and decision is recorded in the workbook's `Issue_logs` sheet. The full Power Query script is in `Cleaning_steps.txt`.
 
 ## Key findings
 - **Tonnage per trip:** Alimosho collects the most (about 7.2 tons per trip) and Epe the least (about 3.7), so a trip in Alimosho collects nearly twice as much. The all-zone average is 5.63.
 - **Peak month:** December is the busiest month at about 2,347 tons, around 62% above August, the lowest month at about 1,444 tons.
 - **Missed pickups:** Ikorodu (2.56), Badagry (2.51) and Epe (2.41) have the highest averages per record, against 1.10 in Surulere and 1.70 overall.
 - **Combined picture:** Epe, Badagry and Ikorodu are the three weakest zones on both tonnage per trip and missed pickups.
+
+![Key takeaway and data notes](Summary_notes.png)
 
 ## Recommendation
 Prioritise Epe, Badagry and Ikorodu. Next steps would be to check route length, truck allocation and collection frequency in these zones, and to investigate why pickups are missed. Plan extra capacity ahead of December.
@@ -52,6 +56,7 @@ Prioritise Epe, Badagry and Ikorodu. Next steps would be to check route length, 
 
 ## Files
 - `waste_collection_tracker.xlsx`: the full workbook (raw data, cleaned data, pivot tables, summary, issues log)
-- `summary.png`: screenshot of the Summary sheet
-- `cleaning_steps.txt: the full Power Query cleaning script
+- `Summary.png`: screenshot of the Summary sheet
+- `Summary_notes.png`: key takeaway and data notes
+- `Cleaning_steps.txt`: the full Power Query cleaning script
 
