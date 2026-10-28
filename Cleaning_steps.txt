@@ -1,0 +1,21 @@
+let
+    Source = waste_collection_raw,
+    #"Removed Duplicates" = Table.Distinct(Source),
+    #"Trimmed Text" = Table.TransformColumns(#"Removed Duplicates",{{"Zone", Text.Trim, type text}}),
+    #"Capitalized Each Word" = Table.TransformColumns(#"Trimmed Text",{{"Zone", Text.Proper, type text}}),
+    #"Replaced Value" = Table.ReplaceValue(#"Capitalized Each Word","tons","",Replacer.ReplaceText,{"Tonnage"}),
+    #"Trimmed Text1" = Table.TransformColumns(#"Replaced Value",{{"Tonnage", Text.Trim, type text}}),
+    #"Replaced Value1" = Table.ReplaceValue(#"Trimmed Text1","999",null,Replacer.ReplaceValue,{"Tonnage"}),
+    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","","",Replacer.ReplaceValue,{"Tonnage"}),
+    #"Changed Type" = Table.TransformColumnTypes(#"Replaced Value2",{{"Tonnage", type number}}),
+    #"Replaced Value3" = Table.ReplaceValue(#"Changed Type","N/A",null,Replacer.ReplaceValue,{"Fuel Used (L)"}),
+    #"Changed Type1" = Table.TransformColumnTypes(#"Replaced Value3",{{"Fuel Used (L)", type number}}),
+    #"Replaced Value4" = Table.ReplaceValue(#"Changed Type1",null,"unknown",Replacer.ReplaceValue,{"Truck ID"}),
+    #"Changed Type2" = Table.TransformColumnTypes(#"Replaced Value4",{{"Trips", Int64.Type}, {"Missed Pickups", Int64.Type}, {"Date", type date}}),
+    #"Inserted Month" = Table.AddColumn(#"Changed Type2", "Month", each Date.Month([Date]), Int64.Type),
+    #"Inserted Month Name" = Table.AddColumn(#"Inserted Month", "Month Name", each Date.MonthName([Date]), type text),
+    #"Added Custom" = Table.AddColumn(#"Inserted Month Name", "Tonage Per Trip", each [Tonnage]/[Trips]),
+    #"Changed Type4" = Table.TransformColumnTypes(#"Added Custom",{{"Date", type date}}),
+    #"Renamed Columns" = Table.RenameColumns(#"Changed Type4",{{"Tonage Per Trip", "Tonage per Trip"}})
+in
+    #"Renamed Columns"
